@@ -1,0 +1,26 @@
+services:
+  backend:
+    image: sagarikasahoo/iitb_course_management:backend
+    ports:
+      - "8000:8000"
+    environment:
+      - DEBUG=False
+    command: python manage.py runserver 0.0.0.0:8000
+    networks:
+      - backend-network
+
+  frontend:
+    image: sagarikasahoo/iitb_course_management:frontend
+    ports:
+      - "5000:5000"
+    environment:
+      - NODE_ENV=production
+    command: serve -s dist -l 5000
+    depends_on:
+      - backend
+    networks:
+      - backend-network
+
+networks:
+  backend-network:
+    driver: bridge
